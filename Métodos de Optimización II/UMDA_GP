@@ -1,0 +1,97 @@
+import numpy as np
+
+
+# Leer archivo
+def read_instance(archivo):
+    instancia = open(archivo, 'r')
+    valores = []
+    for i in instancia:
+        valores.append([int(i) for i in i.split()])
+    return valores[::]
+
+#valores=read_instance("3elt_graph")
+#print(valores)
+
+#solucion=np.random.binomial(1,0.5,valores[0][0])
+#suma=0
+#for i in range(1,valores[0][0]+1):
+#    for j in valores[i]:
+#        if solucion[i-1]!=solucion[j-1] and i<j:
+#            suma+=1
+#print(suma)
+
+# Definimos la funcion objetivo
+def fobj(x,D,valores):
+    suma=0
+    for i in range(1,D+1):
+        for j in valores[i]:
+            if x[i-1]!=x[j-1] and i<j:
+                suma+=1
+    return suma
+
+def evalua(xpob, N, D, valores):
+    #n = xpob.shape[0]
+    for i in range(N):
+        xpob[i,D] = fobj(xpob[i,:D],D,valores)
+    return xpob 
+
+def estima(xpob,D,M):
+    #n,m = xpob.shape
+    p = []
+    for i in range(D):
+        p.append(np.sum(xpob[:,i])/M)
+        #if p[i]==0:
+            #p[i]=0.01
+        #if p[i]==1:
+            #p[i]=0.99
+    return p
+
+def UMDA(archivo,N, M, iter, p_0):
+    '''
+    archivo: instancia
+    N : tamano de la poblacion
+    M : tamano de seleccion
+    iter: numero maximo de iteraciones  
+    '''
+    # Poblacion inicial
+    k = 0
+    valores=read_instance(archivo)
+    D=valores[0][0]
+    xpob = np.zeros((N,D+1))
+    xpob_selec = np.zeros((M,D+1))
+    for i in range(N):
+        xpob[i,:D] = np.random.binomial(1,p_0, size=(D))
+        #while np.sum(xpob[i,:D])!=D/2:
+        #    xpob[i,:D] = np.random.binomial(1,p_0, size=(D))
+    #xpob[:,:D] = np.random.binomial(1,p_0, size=(N, D))
+    xpob = evalua(xpob, N, D,valores)
+    #aux=np.std(xpob[:,D])
+    while k < iter:# and aux!=0:
+        # Seleccion
+        xpob = xpob[xpob[:,D].argsort()]
+        xpob_selec = xpob[:M,:]
+        # Estimacion
+        p = estima(xpob_selec, D, M)
+        # Muestreo
+        for i in range(N):
+            for j in range(D):
+                xpob[i,j] = np.random.binomial(1,p[j], size=1)
+            #while np.sum(xpob[i,:D])!=D/2:
+            #    for j in range(D):
+            #        xpob[i,j] = np.random.binomial(1,p[j], size=1)
+
+                #xpob[i,:D] = np.random.binomial(1,p_0, size=(D))
+        #for i in range(D):
+            #xpob[:,i] = np.random.binomial(1,p[i], N)
+        xpob = evalua(xpob,N, D, valores)
+        k += 1
+        print(f'iter {k}')
+        print(xpob[:,D])
+        #aux=np.std(xpob[:,D])
+        #print(p)
+    return xpob
+
+sol=UMDA('3eltgraph.txt',50, 25, 200, 0.7)
+print(sol)
+
+
