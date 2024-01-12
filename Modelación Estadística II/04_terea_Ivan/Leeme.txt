@@ -1,0 +1,16 @@
+Modelación Estadística II
+Tarea 4
+Alumno:
+Iván Vega Gutiérrez
+Poresor:
+Humberto Martínez Bautista
+
+##### Carpetas y archivos #####
+
+04_tarea_modest : archivo zip que contiene el documento látex
+casas.ipynb : código implementado en python
+casas.R : código implementado en R
+
+
+
+

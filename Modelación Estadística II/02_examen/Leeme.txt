@@ -1,0 +1,17 @@
+Modelación Estadística II
+Examen 2
+Alumno:
+Iván Vega Gutiérrez
+Poresor:
+Humberto Martínez Bautista
+
+##### Carpetas y archivos #####
+
+02_examen_MODESTII : documento pdf del examen
+02_examen_MODESTII : archivo zip que contiene el documento látex
+datos.xlsx : base de datos
+02_examen.R : código implementado en R
+
+
+
+
