@@ -47,6 +47,6 @@ En este repositorio se encuentran algoritmos implementados en tareas y proyectos
 - Algoritmos genéticos
 - Knapsack problem
   
-# Laboratorio de Resolución de Problemas II
+## Laboratorio de Resolución de Problemas II
 - Se plantean diferentes problemas 
 
